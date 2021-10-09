@@ -49,4 +49,15 @@ public class SpjService {
     public Long getSampleCount(){
         return sampleRepository.count();
     }
+
+    public Long getLogCount(){
+        return spjRepository.count();
+    }
+
+    public String getTimeInLog(Integer id){
+        if(id == 0){
+            return "";
+        }
+        return spjRepository.getById(id).getTime();
+    }
 }

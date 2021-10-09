@@ -31,8 +31,8 @@ public class SpjController {
 
     @GetMapping("/arrival")
     ResponseEntity<String> getArrival(){
-        PresentData presentData = new PresentData("https://maps.app.goo.gl/TH7KGs7ihk2SjxwC9","12:11 AM");
-        String body = spjService.getExpectedArrival(presentData);
+        Integer count = Math.toIntExact(spjService.getLogCount());
+        String body = spjService.getTimeInLog(count);
         return new ResponseEntity<String>(body, HttpStatus.OK);
     }
 
