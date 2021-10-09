@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class Spjcontroller {
+public class SpjController {
     @GetMapping("/")
     ResponseEntity<String> hello(){
         return new ResponseEntity<String>("Hello! This is spajam2021_pre4", HttpStatus.OK);

@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: spajam
       MYSQL_PASSWORD: spajam
-      MYSQL_DATABASE: log
+      MYSQL_DATABASE: spajam
     ports:
       - "3316:3306"
     volumes:
