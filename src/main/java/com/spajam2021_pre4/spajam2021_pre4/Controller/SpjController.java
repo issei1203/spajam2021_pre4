@@ -32,7 +32,7 @@ public class SpjController {
     @GetMapping("/arrival")
     ResponseEntity<String> getArrival(){
         Integer count = Math.toIntExact(spjService.getLogCount());
-        String body = spjService.getTimeInLog(count);
+        String body = "{\"time\":\"" + spjService.getTimeInLog(count) + "\"}";
         return new ResponseEntity<String>(body, HttpStatus.OK);
     }
 
