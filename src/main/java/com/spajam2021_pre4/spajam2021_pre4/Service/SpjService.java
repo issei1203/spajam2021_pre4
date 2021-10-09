@@ -52,8 +52,8 @@ public class SpjService {
         return sampleRepository.count();
     }
 
-    public Long getLogCount(){
-        return spjRepository.count();
+    public Long getLogCount(String uid){
+        return spjRepository.countByUserId(uid);
     }
 
     public String getCurrentTimeInLog(Integer id){
