@@ -20,7 +20,7 @@ jar {
 }
 
 dependencies {
-	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.41.0'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
