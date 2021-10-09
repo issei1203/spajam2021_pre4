@@ -11,6 +11,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class SpjService {
@@ -58,6 +61,24 @@ public class SpjService {
         if(id == 0){
             return "";
         }
-        return spjRepository.getById(id).getTime();
+        String rawTime = spjRepository.getById(id).getTime();
+
+        return convertUnixTime(rawTime);
+    }
+
+    public String convertUnixTime(String time){
+        String[] timeList = time.split(":");
+        String hour = timeList[0];
+        String[] timeList2 = timeList[1].split(" ");
+        String minute = timeList2[0];
+        String meridian = timeList2[1];
+        if(meridian.equals("PM")){
+            hour = String.valueOf(Integer.parseInt(hour) + 12);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(2021, 10, 10, Integer.parseInt(hour), Integer.parseInt(minute), 0, 0, ZoneId.systemDefault());
+        long epochSecond = zonedDateTime.toEpochSecond();
+        return String.valueOf(epochSecond);
     }
 }
