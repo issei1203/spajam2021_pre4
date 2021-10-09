@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS log(
     id INTEGER AUTO_INCREMENT PRIMARY KEY ,
     start CHAR(8) NOT NULL,
+    first CHAR(8) NOT NULL,
     current CHAR(8) NOT NULL,
     user VARCHAR(25) NOT NULL
 );
