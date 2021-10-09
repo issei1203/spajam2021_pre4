@@ -1,1 +1,2 @@
 INSERT INTO sample VALUES (0,"12:35 AM",0);
+INSERT INTO sample VALUES (0,"12:40 AM",0);

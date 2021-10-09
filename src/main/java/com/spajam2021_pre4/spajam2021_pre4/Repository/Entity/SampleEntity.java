@@ -8,14 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "log")
-public class LogsEntity implements Serializable {
+@Table(name = "sample")
+public class SampleEntity {
     @Id
     @Column(name = "id")
     private Integer id;
