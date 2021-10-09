@@ -14,8 +14,13 @@ public class SpjController {
         return new ResponseEntity<String>("Hello! This is spajam2021_pre4", HttpStatus.OK);
     }
 
+    @GetMapping("/arrival")
+    ResponseEntity<String> getArrival(){
+        return new ResponseEntity<String>("getArrival", HttpStatus.OK);
+    }
+
     @PostMapping("/arrival")
-    ResponseEntity<String> getPosition(@RequestParam String url){
+    ResponseEntity<String> setSettings(@RequestParam String url){
         return new ResponseEntity<String>(url, HttpStatus.OK);
     }
 }

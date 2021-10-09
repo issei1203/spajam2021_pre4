@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -19,8 +20,14 @@ class SpjcontrollerTest {
     MockMvc mockMvc;
 
     @Test
-    void test_shouldGetPosition() throws Exception {
+    void test_shouldSetSettings() throws Exception {
         MvcResult result = mockMvc.perform(post("/arrival").param("url","sample.com")).andExpect(status().isOk()).andReturn();
         assertEquals("sample.com",result.getResponse().getContentAsString());
+    }
+
+    @Test
+    void test_shouldGetArrival() throws Exception {
+        MvcResult result = mockMvc.perform(get("/arrival")).andExpect(status().isOk()).andReturn();
+        assertEquals("getArrival",result.getResponse().getContentAsString());
     }
 }
