@@ -1,6 +1,7 @@
 package com.spajam2021_pre4.spajam2021_pre4.Controller;
 
 import com.spajam2021_pre4.spajam2021_pre4.Service.SpjService;
+import model.PresentData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,9 @@ public class SpjController {
 
     @GetMapping("/arrival")
     ResponseEntity<String> getArrival(){
-        return new ResponseEntity<String>("getArrival", HttpStatus.OK);
+        PresentData presentData = new PresentData("https://maps.app.goo.gl/TH7KGs7ihk2SjxwC9","12:11 AM");
+        String body = spjService.getExpectedArrival(presentData);
+        return new ResponseEntity<String>(body, HttpStatus.OK);
     }
 
     @PostMapping("/arrival")
