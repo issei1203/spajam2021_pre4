@@ -1,8 +1,10 @@
 package com.spajam2021_pre4.spajam2021_pre4.Service;
 
+import com.spajam2021_pre4.spajam2021_pre4.Repository.Entity.LogsEntity;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SampleRepository;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SpjRepository;
 import model.PresentData;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,12 +21,21 @@ public class SpjService {
 
     private SpjRepository spjRepository;
     private SampleRepository sampleRepository;
+    private PresentData presentData = new PresentData("sample.com","12:34 AM");
+    private boolean isRun = true;
 
     public SpjService(SpjRepository spjRepository,SampleRepository sampleRepository){
         this.spjRepository = spjRepository;
         this.sampleRepository = sampleRepository;
     }
 
+    @Scheduled(fixedDelay = 10000)
+    private void cronJob(){
+        if(isRun){
+            spjRepository.save(new LogsEntity(0,"10:6 AM","user","1:34 PM","11:12 PM"));
+        }
+
+    }
     public String setLogs(PresentData presentData, String uid){
 //        HttpClient httpClient = HttpClient.newHttpClient();
 //        HttpRequest httpRequest = HttpRequest.newBuilder(
