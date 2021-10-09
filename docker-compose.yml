@@ -6,8 +6,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: spajam
-      MYSQL_PASSWORD: spajam
+      MYSQL_USER: user
+      MYSQL_PASSWORD: spajam2021
       MYSQL_DATABASE: spajam
     ports:
       - "3316:3306"
