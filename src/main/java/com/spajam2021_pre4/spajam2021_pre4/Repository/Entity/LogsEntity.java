@@ -19,8 +19,10 @@ public class LogsEntity implements Serializable {
     @Id
     @Column(name = "id")
     private Integer id;
-    @Column(name = "time")
-    private String time;
+    @Column(name = "start")
+    private String startTime;
     @Column(name = "user")
     private Integer userId;
+    @Column(name = "current")
+    private String currentTime;
 }

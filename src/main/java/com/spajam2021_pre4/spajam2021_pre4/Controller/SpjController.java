@@ -1,7 +1,6 @@
 package com.spajam2021_pre4.spajam2021_pre4.Controller;
 
 import com.spajam2021_pre4.spajam2021_pre4.Service.SpjService;
-import model.PresentData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,14 +29,14 @@ public class SpjController {
     }
 
     @GetMapping("/arrival")
-    ResponseEntity<String> getArrival(){
+    ResponseEntity<String> getArrival(@RequestParam("uid") String uid){
         Integer count = Math.toIntExact(spjService.getLogCount());
-        String body = "{\"time\":\"" + spjService.getTimeInLog(count) + "\"}";
+        String body = "{\"firstArrivalTime\":\"" + spjService.getStartTimeInLog(count) + "\",\"currentArrivalTime\":\"" + spjService.getCurrentTimeInLog(count) + "\"}";
         return new ResponseEntity<String>(body, HttpStatus.OK);
     }
 
     @PostMapping("/arrival")
-    ResponseEntity<String> setSettings(@RequestParam String url){
+    ResponseEntity<String> setSettings(@RequestParam("googleTripProgressUrl") String url,@RequestParam("startedTime") String startedTime){
         return new ResponseEntity<String>(url, HttpStatus.OK);
     }
 }

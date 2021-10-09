@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.ZoneId;
@@ -57,11 +56,20 @@ public class SpjService {
         return spjRepository.count();
     }
 
-    public String getTimeInLog(Integer id){
+    public String getCurrentTimeInLog(Integer id){
         if(id == 0){
             return "";
         }
-        String rawTime = spjRepository.getById(id).getTime();
+        String rawTime = spjRepository.getById(id).getCurrentTime();
+
+        return convertUnixTime(rawTime);
+    }
+
+    public String getStartTimeInLog(Integer id){
+        if(id == 0){
+            return "";
+        }
+        String rawTime = spjRepository.getById(id).getStartTime();
 
         return convertUnixTime(rawTime);
     }
