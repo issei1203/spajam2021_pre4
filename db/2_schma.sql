@@ -3,3 +3,9 @@ CREATE TABLE IF NOT EXISTS log(
     time CHAR(8) NOT NULL,
     user INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS sample(
+      id INTEGER AUTO_INCREMENT PRIMARY KEY ,
+      time CHAR(8) NOT NULL,
+      user INTEGER
+);
