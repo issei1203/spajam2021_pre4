@@ -6,6 +6,7 @@ import com.spajam2021_pre4.spajam2021_pre4.Repository.SpjRepository;
 import model.PresentData;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,10 @@ public class SpjService {
     @Scheduled(fixedDelay = 7000)
     private void cronJob(){
         if(isRun) {
-            WebDriver webDriver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--headless", "--no-sandbox");
+
+            WebDriver webDriver = new ChromeDriver(chromeOptions);
             webDriver.get(presentData.getUrl());
             try {
                     Thread.sleep(3000);
