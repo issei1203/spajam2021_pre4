@@ -120,6 +120,7 @@ public class SpjService {
     }
 
     public String convertUnixTime(String time){
+        logger.log(Level.INFO,time);
         String[] timeList = time.split(":");
         String hour = timeList[0];
         String[] timeList2 = timeList[1].split(" ");
@@ -130,8 +131,10 @@ public class SpjService {
 //        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
+        logger.log(Level.INFO,"hour: " + hour + " minute: " + minute);
         ZonedDateTime zonedDateTime = ZonedDateTime.of(2021, 10, 10, Integer.parseInt(hour), Integer.parseInt(minute), 0, 0, ZoneId.systemDefault());
         long epochSecond = zonedDateTime.toEpochSecond();
+        logger.log(Level.INFO, String.valueOf(epochSecond));
         return String.valueOf(epochSecond);
     }
 
