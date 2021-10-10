@@ -126,4 +126,8 @@ public class SpjService {
         long epochSecond = zonedDateTime.toEpochSecond();
         return String.valueOf(epochSecond);
     }
+
+    public boolean isRun() {
+        return isRun;
+    }
 }

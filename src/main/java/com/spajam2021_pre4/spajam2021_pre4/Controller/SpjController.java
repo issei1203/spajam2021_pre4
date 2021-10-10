@@ -42,4 +42,13 @@ public class SpjController {
         String body = spjService.setLogs(presentData, uid);
         return new ResponseEntity<String>(body, HttpStatus.OK);
     }
+
+    @GetMapping("/stop")
+    ResponseEntity<String> stop(){
+        spjService.unSetLogs();
+        if(spjService.isRun()){
+            return new ResponseEntity<String>("miss", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
 }
