@@ -68,7 +68,7 @@ public class SpjService {
                             firstTime = time;
                         }
 
-                        String st = convertUnixTime(presentData.getArrivalTime());
+                        String st = presentData.getArrivalTime();
                         String ft = convertUnixTime(firstTime);
                         String ct = convertUnixTime(time);
                     spjRepository.save(new LogsEntity(0,st,userid,ft,ct));
@@ -110,11 +110,11 @@ public class SpjService {
         return rawTime;
     }
 
-    public String getStartTimeInLog(Integer id){
+    public String getFirstTimeInLog(Integer id){
         if(id == 0){
             return "";
         }
-        String rawTime = spjRepository.getById(id).getStartTime();
+        String rawTime = spjRepository.getById(id).getFirstTime();
 
         return rawTime;
     }
