@@ -4,6 +4,7 @@ import com.spajam2021_pre4.spajam2021_pre4.Repository.Entity.LogsEntity;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SampleRepository;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SpjRepository;
 import model.PresentData;
+import org.apache.commons.logging.Log;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,6 +16,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +31,8 @@ public class SpjService {
     private String firstTime = "";
     private boolean isRun = false;
     private Pattern pattern = Pattern.compile("\"到着予定時刻:.............");
+
+    private Logger logger = Logger.getLogger("DataConvert");
 
     public SpjService(SpjRepository spjRepository,SampleRepository sampleRepository){
         this.spjRepository = spjRepository;
@@ -51,10 +56,13 @@ public class SpjService {
                     while (matcher.find()) {
                         matchBodylist.add(matcher.group());
                     }
-                    if (matchBodylist.size() == 1) {
+                    if (matchBodylist.size() == 1) {;
                         String time = matchBodylist.get(0);
+                        logger.log(Level.INFO,"time: " + time);
                         time = time.replace("\"到着予定時刻: ", "");
+                        logger.log(Level.INFO,"time: " + time);
                         time = time.split("\"")[0];
+                        logger.log(Level.INFO,"time: " + time);
 
                         if(firstTime.equals("")){
                             firstTime = time;
