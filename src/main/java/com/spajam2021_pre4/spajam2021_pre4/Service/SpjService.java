@@ -31,7 +31,7 @@ public class SpjService {
     public SpjService(SpjRepository spjRepository,SampleRepository sampleRepository){
         this.spjRepository = spjRepository;
         this.sampleRepository = sampleRepository;
-        System.setProperty("webdriver.chrome.driver","/Users/issei_itagaki/chromedriver");
+        System.setProperty("webdriver.chrome.driver","/home/ec2-user/chromedriver");
     }
 
     @Scheduled(fixedDelay = 7000)
