@@ -4,63 +4,85 @@ import com.spajam2021_pre4.spajam2021_pre4.Repository.Entity.LogsEntity;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SampleRepository;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SpjRepository;
 import model.PresentData;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class SpjService {
 
     private SpjRepository spjRepository;
     private SampleRepository sampleRepository;
-    private PresentData presentData = new PresentData("sample.com","12:34 AM");
-    private boolean isRun = true;
+    private PresentData presentData;
+    private String userid;
+    private String firstTime = "";
+    private boolean isRun = false;
+    private Pattern pattern = Pattern.compile("\"到着予定時刻:.............");
 
     public SpjService(SpjRepository spjRepository,SampleRepository sampleRepository){
         this.spjRepository = spjRepository;
         this.sampleRepository = sampleRepository;
+        System.setProperty("webdriver.chrome.driver","/Users/issei_itagaki/chromedriver");
     }
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 7000)
     private void cronJob(){
-        if(isRun){
-            spjRepository.save(new LogsEntity(0,"10:6 AM","user","1:34 PM","11:12 PM"));
+        if(isRun) {
+            WebDriver webDriver = new ChromeDriver();
+            webDriver.get(presentData.getUrl());
+            try {
+                    Thread.sleep(3000);
+                    String body = webDriver.getPageSource();
+                    Matcher matcher = pattern.matcher(body);
+                    List<String> matchBodylist = new ArrayList<String>();
+                    while (matcher.find()) {
+                        matchBodylist.add(matcher.group());
+                    }
+                    if (matchBodylist.size() == 1) {
+                        String time = matchBodylist.get(0);
+                        time = time.replace("\"到着予定時刻: ", "");
+                        time = time.split("\"")[0];
+
+                        if(firstTime.equals("")){
+                            firstTime = time;
+                        }
+
+                        String st = convertUnixTime(presentData.getArrivalTime());
+                        String ft = convertUnixTime(firstTime);
+                        String ct = convertUnixTime(time);
+                    spjRepository.save(new LogsEntity(0,st,userid,ft,ct));
+                }
+            } catch (InterruptedException e) {
+            }
+
+            webDriver.close();
         }
 
     }
-    public String setLogs(PresentData presentData, String uid){
-//        HttpClient httpClient = HttpClient.newHttpClient();
-//        HttpRequest httpRequest = HttpRequest.newBuilder(
-//                URI.create(presentData.getUrl())
-//        ).build();
-//        String body;
-//        try {
-//            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-//            String redirectUrl = httpResponse.headers().map().get("location").get(0);
-//
-//            HttpClient httpClient2 = HttpClient.newHttpClient();
-//            HttpRequest httpRequest2 = HttpRequest.newBuilder(
-//                    URI.create(redirectUrl)
-//            ).build();
-//            HttpResponse<String> httpResponse2 = httpClient2.send(httpRequest2, HttpResponse.BodyHandlers.ofString());
-//            body = httpResponse2.body();
-//
-//        }catch (IOException | InterruptedException ignored){
-//            body = "";
-//        }
+    public String setLogs(PresentData pd, String uid){
+        presentData = pd;
+        userid = uid;
+        isRun = true;
         return "";
     }
 
     public Long getSampleCount(){
         return sampleRepository.count();
+    }
+
+    public String unSetLogs(){
+        isRun = false;
+        firstTime = "";
+        return "";
     }
 
     public Long getLogCount(String uid){
@@ -73,7 +95,7 @@ public class SpjService {
         }
         String rawTime = spjRepository.getById(id).getCurrentTime();
 
-        return convertUnixTime(rawTime);
+        return rawTime;
     }
 
     public String getStartTimeInLog(Integer id){
@@ -82,7 +104,7 @@ public class SpjService {
         }
         String rawTime = spjRepository.getById(id).getStartTime();
 
-        return convertUnixTime(rawTime);
+        return rawTime;
     }
 
     public String convertUnixTime(String time){
@@ -90,10 +112,10 @@ public class SpjService {
         String hour = timeList[0];
         String[] timeList2 = timeList[1].split(" ");
         String minute = timeList2[0];
-        String meridian = timeList2[1];
-        if(meridian.equals("PM")){
-            hour = String.valueOf(Integer.parseInt(hour) + 12);
-        }
+//        String meridian = timeList2[1];
+//        if(meridian.equals("PM")){
+//            hour = String.valueOf(Integer.parseInt(hour) + 12);
+//        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
         ZonedDateTime zonedDateTime = ZonedDateTime.of(2021, 10, 10, Integer.parseInt(hour), Integer.parseInt(minute), 0, 0, ZoneId.systemDefault());
