@@ -4,7 +4,6 @@ import com.spajam2021_pre4.spajam2021_pre4.Repository.Entity.LogsEntity;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SampleRepository;
 import com.spajam2021_pre4.spajam2021_pre4.Repository.SpjRepository;
 import model.PresentData;
-import org.apache.commons.logging.Log;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,6 +29,7 @@ public class SpjService {
     private String userid;
     private String firstTime = "";
     private boolean isRun = false;
+    private WebDriver webDriver;
     private Pattern pattern = Pattern.compile("\"到着予定時刻:.............");
 
     private Logger logger = Logger.getLogger("DataConvert");
@@ -37,16 +37,17 @@ public class SpjService {
     public SpjService(SpjRepository spjRepository,SampleRepository sampleRepository){
         this.spjRepository = spjRepository;
         this.sampleRepository = sampleRepository;
+        //System.setProperty("webdriver.chrome.driver","/Users/issei_itagaki/chromedriver");
         System.setProperty("webdriver.chrome.driver","/home/ec2-user/chromedriver");
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless", "--no-sandbox");
+
+        webDriver = new ChromeDriver(chromeOptions);
     }
 
     @Scheduled(fixedDelay = 7000)
     private void cronJob(){
         if(isRun) {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless", "--no-sandbox");
-
-            WebDriver webDriver = new ChromeDriver(chromeOptions);
             webDriver.get(presentData.getUrl());
             try {
                     Thread.sleep(3000);
